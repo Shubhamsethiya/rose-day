@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Rose Day Surprise</title>
+
+<style>
+body{
+    margin:0;
+    font-family: Arial, sans-serif;
+    background: linear-gradient(135deg,#ff758c,#ff7eb3);
+    min-height:100vh;
+    text-align:center;
+    color:white;
+}
+.background-text{
+    position:fixed;
+    top:40%;
+    left:50%;
+    transform:translate(-50%,-50%);
+    font-size:110px;
+    opacity:0.15;
+    letter-spacing:8px;
+}
+.container{padding:40px 20px;}
+.roses{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+    gap:20px;
+    max-width:900px;
+    margin:auto;
+}
+.rose-card{
+    background:rgba(255,255,255,0.2);
+    border-radius:15px;
+    padding:15px;
+    cursor:pointer;
+    transition:.3s;
+}
+.rose-card:hover{transform:scale(1.05);}
+.rose-card.selected{
+    border:3px solid white;
+}
+.rose-card img{
+    width:100%;
+    height:180px;
+    object-fit:cover;
+    border-radius:10px;
+}
+button{
+    margin-top:30px;
+    padding:12px 30px;
+    font-size:18px;
+    border:none;
+    border-radius:25px;
+    background:white;
+    color:#ff4b7d;
+}
+</style>
+</head>
+
+<body>
+
+<div class="background-text">ROSE DAY</div>
+
+<div class="container">
+<h1>🌹 Happy Rose Day 🌹</h1>
+<h2>Which one do you want to pick?</h2>
+
+<div class="roses">
+
+<div class="rose-card" onclick="selectRose('Red Rose',this)">
+<img src="https://images.unsplash.com/photo-1548094967-e25f1a6f46f1">
+<h3>Red Rose</h3>
+<p>Deep Love & True Romance ❤️</p>
+</div>
+
+<div class="rose-card" onclick="selectRose('Pink Rose',this)">
+<img src="https://images.unsplash.com/photo-1509042239860-f550ce710b93">
+<h3>Pink Rose</h3>
+<p>Admiration & Sweet Affection 💗</p>
+</div>
+
+<div class="rose-card" onclick="selectRose('Yellow Rose',this)">
+<img src="https://images.unsplash.com/photo-1501004318641-b39e6451bec6">
+<h3>Yellow Rose</h3>
+<p>Friendship & Joy 💛</p>
+</div>
+
+<div class="rose-card" onclick="selectRose('Orange Rose',this)">
+<img src="https://images.unsplash.com/photo-1526045612212-70caf35c14df">
+<h3>Orange Rose</h3>
+<p>Passion & Desire 🧡</p>
+</div>
+
+</div>
+
+<button onclick="submitChoice()">Submit</button>
+</div>
+
+<script>
+let selected="";
+
+function selectRose(name,el){
+    selected=name;
+    document.querySelectorAll(".rose-card")
+    .forEach(c=>c.classList.remove("selected"));
+    el.classList.add("selected");
+}
+
+function submitChoice(){
+    if(selected===""){
+        alert("Please select a rose!");
+        return;
+    }
+
+    fetch("https://docs.google.com/forms/d/e/1FAIpQLSfbUGT-5Fm3bbFmzYetcTtSUXKO3ND0zsQEc5ks1ACDyjeDEw/formResponse",{
+        method:"POST",
+        mode:"no-cors",
+        headers:{
+            "Content-Type":"application/x-www-form-urlencoded"
+        },
+        body:"entry.1468915717="+encodeURIComponent(selected)
+    });
+
+    document.body.innerHTML="<h1>🌹 Thank You 🌹</h1><p>Your rose has been sent successfully!</p>";
+}
+</script>
+
+</body>
+</html>
